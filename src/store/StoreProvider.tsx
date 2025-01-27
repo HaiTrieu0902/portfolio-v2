@@ -18,6 +18,7 @@ export default function StoreProvider({
     store.dispatch(setLang(lang));
     store.dispatch(setDict(dict));
   }, [lang, dict]);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

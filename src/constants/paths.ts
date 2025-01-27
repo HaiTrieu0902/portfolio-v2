@@ -1,5 +1,5 @@
 export const PATH_DEFAULT = {
-  home: '/',
+  home: '/home',
   dashboard: '/dashboard',
   auth: { login: '/auth/login', register: '/auth/register' },
   project: { view: '/project', detail: '/project/create' },

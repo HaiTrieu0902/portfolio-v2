@@ -7,7 +7,7 @@ import { Skeleton } from 'antd';
 
 const HomePage = () => {
   const { lang } = useAppSelector((state) => state.common);
-  redirect(`/${lang}${PATH_DEFAULT.dashboard}`);
+  redirect(`/${lang}${PATH_DEFAULT.home}`);
 };
 export default function Page() {
   return (
