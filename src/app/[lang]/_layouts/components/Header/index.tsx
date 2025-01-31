@@ -1,9 +1,16 @@
 'use client';
+import facebook from '@/assets/img/fb.png';
+import github from '@/assets/img/github2.png';
+import linkedin from '@/assets/img/linkedin.png';
+import youtube from '@/assets/img/youtube.png';
+import tiktok from '@/assets/img/tiktok.png';
+import instagram from '@/assets/img/instagram.png';
 import Shape from '@/components/Shape';
 import Speech from '@/components/Speech';
 import { Canvas } from '@react-three/fiber';
 import { Row, Skeleton } from 'antd';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Suspense } from 'react';
 
 const awardVariants = {
@@ -37,8 +44,9 @@ const Header = () => {
         >
           Hey There,
           <br />
-          <span className="text-white">I'm Robert!</span>
+          <span className="text-blue-800">I'm Hai Trieu!</span>
         </motion.h1>
+
         {/* AWARDS */}
         <motion.div variants={awardVariants} initial="initial" animate="animate" className="w-1/3">
           <motion.h2 variants={awardVariants}>Top Rated Designer</motion.h2>
@@ -46,13 +54,15 @@ const Header = () => {
             Lorem ipsum dolor sit amet.
           </motion.p>
           <motion.div variants={awardVariants} className="flex gap-2">
-            {['/award1.png', '/award2.png', '/award3.png'].map((src, i) => (
-              <motion.img
+            {[instagram, youtube, tiktok].map((src, i) => (
+              <Image
                 key={i}
-                variants={awardVariants}
                 src={src}
-                alt=""
-                className="w-9 h-9 p-2 bg-white rounded-full"
+                alt={`alt${src}`}
+                width={24}
+                height={24}
+                objectFit="contain"
+                style={{ borderRadius: i === 2 ? 6 : 0 }}
               />
             ))}
           </motion.div>
@@ -82,7 +92,7 @@ const Header = () => {
         </motion.a>
       </Row>
 
-      <div className="flex flex-col items-end w-1/2 h-full">
+      <Row className="flex  flex-col items-end w-1/2 h-full">
         {/* FOLLOW */}
         <motion.div
           variants={followVariants}
@@ -90,11 +100,12 @@ const Header = () => {
           animate="animate"
           className="flex flex-col gap-3 p-4 bg-purple-800 rounded-br-md"
         >
-          {['/instagram.png', '/facebook.png', '/youtube.png'].map((src, i) => (
+          {[facebook, linkedin, github].map((src, i) => (
             <motion.a key={i} variants={followVariants} href="/">
-              <img src={src} alt="" className="w-5 h-5" />
+              <Image key={i} src={src} alt={`alt${src}`} width={24} height={24} objectFit="contain" />
             </motion.a>
           ))}
+
           <motion.div
             variants={followVariants}
             className="w-5 h-5 bg-red-600 text-xs rotate-90 p-2 flex items-center rounded-br-md"
@@ -150,10 +161,10 @@ const Header = () => {
             </div>
           </motion.div>
         </motion.a>
-      </div>
+      </Row>
 
       {/* BACKGROUND 3D */}
-      <div className="absolute w-full h-full top-0 left-0 -z-10">
+      <Row className="absolute w-full h-full top-0 left-0 -z-10">
         <Canvas>
           <Suspense fallback={<Skeleton avatar></Skeleton>}>
             <Shape />
@@ -162,7 +173,7 @@ const Header = () => {
         <div className="absolute bottom-0 right-0 left-0 mx-auto h-4/5">
           <img src="/hero.png" alt="" className="w-full h-full object-cover" />
         </div>
-      </div>
+      </Row>
     </Row>
   );
 };
