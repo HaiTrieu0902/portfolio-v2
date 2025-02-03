@@ -6,7 +6,7 @@ const Shape = () => {
   return (
     <Fragment>
       <Sphere args={[1, 100, 200]} scale={2.4}>
-        <MeshDistortMaterial color="#DB8B9B" attach="material" distort={0.5} speed={2} />
+        <MeshDistortMaterial color="#405cb2" attach="material" distort={0.5} speed={2} />
       </Sphere>
       <ambientLight intensity={2} />
       <directionalLight position={[1, 2, 3]} />

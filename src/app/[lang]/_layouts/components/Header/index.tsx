@@ -1,18 +1,23 @@
 'use client';
+import FlagEN from '@/assets/icon/enflag.svg';
+import FlagVN from '@/assets/icon/vnflag.svg';
 import facebook from '@/assets/img/fb.png';
 import github from '@/assets/img/github2.png';
-import linkedin from '@/assets/img/linkedin.png';
-import youtube from '@/assets/img/youtube.png';
-import tiktok from '@/assets/img/tiktok.png';
+import haitrieu from '@/assets/img/haitrieu1.png';
 import instagram from '@/assets/img/instagram.png';
+import flagVN from '@/assets/img/lacovietnam.png';
+import linkedin from '@/assets/img/linkedin.png';
+import tiktok from '@/assets/img/tiktok.png';
+import youtube from '@/assets/img/youtube.png';
 import Shape from '@/components/Shape';
 import Speech from '@/components/Speech';
+import { useAppSelector } from '@/store/store';
 import { Canvas } from '@react-three/fiber';
-import { Row, Skeleton } from 'antd';
+import { Row, Skeleton, Tooltip } from 'antd';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Suspense } from 'react';
-
+import { usePathname, useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 const awardVariants = {
   initial: { x: -100, opacity: 0 },
   animate: {
@@ -32,38 +37,53 @@ const followVariants = {
 };
 
 const Header = () => {
+  const [isEnglish, setIsEnglish] = useState(true);
+  const pathName = usePathname();
+  const router = useRouter();
+  const { dict, lang } = useAppSelector((state) => state.common);
+  useEffect(() => {
+    setIsEnglish(pathName.startsWith('/en/'));
+  }, [pathName]);
   return (
-    <Row className="relative h-screen overflow-hidden flex">
+    <Row className="relative h-screen overflow-hidden flex px-0 xl:px-20">
       <Row className="flex flex-col justify-between w-1/2 h-full">
         {/* TITLE */}
         <motion.h1
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="mt-12 text-6xl text-pink-400"
+          className="mt-12 text-6xl text-white font-bold"
         >
-          Hey There,
+          {dict?.common?.label?.hey},
           <br />
-          <span className="text-blue-800">I'm Hai Trieu!</span>
+          <span className="text-blue-800"> {dict?.common?.label?.iam} Hai Trieu!</span>
         </motion.h1>
 
         {/* AWARDS */}
         <motion.div variants={awardVariants} initial="initial" animate="animate" className="w-1/3">
-          <motion.h2 variants={awardVariants}>Top Rated Designer</motion.h2>
+          <motion.h2 variants={awardVariants} className="font-semibold text-[16px] !m-0">
+            {dict?.common?.label?.softwareEngineer}
+          </motion.h2>
           <motion.p variants={awardVariants} className="text-gray-300 text-sm my-4">
-            Lorem ipsum dolor sit amet.
+            {dict?.common?.label?.titleFirst}
           </motion.p>
           <motion.div variants={awardVariants} className="flex gap-2">
-            {[instagram, youtube, tiktok].map((src, i) => (
-              <Image
-                key={i}
-                src={src}
-                alt={`alt${src}`}
-                width={24}
-                height={24}
-                objectFit="contain"
-                style={{ borderRadius: i === 2 ? 6 : 0 }}
-              />
+            {[
+              { src: instagram, url: 'https://www.instagram.com/yourprofile' },
+              { src: youtube, url: 'https://www.youtube.com/yourchannel' },
+              { src: tiktok, url: 'https://www.tiktok.com/@yourprofile' },
+            ].map(({ src, url }, i) => (
+              <motion.a key={i} variants={followVariants} href={url} target="_blank" rel="noopener noreferrer">
+                <Image
+                  key={i}
+                  src={src}
+                  alt={`alt${src}`}
+                  width={24}
+                  height={24}
+                  objectFit="contain"
+                  style={{ borderRadius: i === 2 ? 6 : 0 }}
+                />
+              </motion.a>
             ))}
           </motion.div>
         </motion.div>
@@ -92,77 +112,59 @@ const Header = () => {
         </motion.a>
       </Row>
 
-      <Row className="flex  flex-col items-end w-1/2 h-full">
+      <Row className="flex flex-col items-end w-1/2 h-full">
         {/* FOLLOW */}
         <motion.div
           variants={followVariants}
           initial="initial"
           animate="animate"
-          className="flex flex-col gap-3 p-4 bg-purple-800 rounded-br-md"
+          className="flex flex-col gap-3 p-4 bg-blue-800 rounded-br-md"
         >
-          {[facebook, linkedin, github].map((src, i) => (
-            <motion.a key={i} variants={followVariants} href="/">
+          {[
+            { src: facebook, url: 'https://www.facebook.com/yourprofile' },
+            { src: linkedin, url: 'https://www.linkedin.com/in/yourprofile' },
+            { src: github, url: 'https://github.com/yourusername' },
+          ].map(({ src, url }, i) => (
+            <motion.a key={i} variants={followVariants} href={url} target="_blank" rel="noopener noreferrer">
               <Image key={i} src={src} alt={`alt${src}`} width={24} height={24} objectFit="contain" />
             </motion.a>
           ))}
 
-          <motion.div
-            variants={followVariants}
-            className="w-5 h-5 bg-red-600 text-xs rotate-90 p-2 flex items-center rounded-br-md"
-          >
-            FOLLOW ME
-          </motion.div>
+          <Tooltip title={dict?.common?.label?.changeLanguage} placement="left">
+            <Image
+              src={isEnglish ? FlagVN : FlagEN}
+              alt={isEnglish ? 'Vietnamese Flag' : 'English Flag'}
+              width={22}
+              height={22}
+              onClick={() => {
+                const newLang = isEnglish ? 'vi' : 'en';
+                let newPath = pathName;
+                if (pathName.startsWith('/en/') || pathName.startsWith('/vi/')) {
+                  newPath = `/${newLang}${pathName.substring(3)}`;
+                } else {
+                  newPath = `/${newLang}${pathName}`;
+                }
+                setIsEnglish(!isEnglish);
+                router.push(newPath);
+              }}
+              className="cursor-pointer"
+            />
+          </Tooltip>
         </motion.div>
 
         {/* BUBBLE */}
-        <Speech />
+        <Speech dict={dict} />
 
         {/* CERTIFICATE */}
         <motion.div
           animate={{ opacity: [0, 1] }}
           transition={{ duration: 1 }}
-          className="w-3/5 flex flex-col items-center text-center text-gray-300 gap-2"
+          className=" flex flex-col items-center text-center text-gray-300 font-medium gap-2 xl:mt-40"
         >
-          <img src="/certificate.png" alt="" className="w-16 h-16" />
-          LMA CERTIFIED PROFESSIONAL UI DESIGNER
+          <Image src={flagVN} alt={`veitnam`} width={120} height={120} objectFit="contain" />
+          {dict?.common?.label?.vietnam}
         </motion.div>
-
-        {/* CONTACT BUTTON */}
-        <motion.a
-          href="/#contact"
-          className="mb-12"
-          animate={{ x: [200, 0], opacity: [0, 1] }}
-          transition={{ duration: 2 }}
-        >
-          <motion.div
-            className="relative"
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          >
-            <svg viewBox="0 0 200 200" width="150" height="150">
-              <circle cx="100" cy="100" r="90" fill="pink" />
-              <text className="text-lg tracking-widest">
-                <textPath href="#innerCirclePath">Hire Now • Contact Me •</textPath>
-              </text>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center w-20 h-20">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="50"
-                height="50"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-              >
-                <line x1="6" y1="18" x2="18" y2="6" />
-                <polyline points="9 6 18 6 18 15" />
-              </svg>
-            </div>
-          </motion.div>
-        </motion.a>
       </Row>
-
       {/* BACKGROUND 3D */}
       <Row className="absolute w-full h-full top-0 left-0 -z-10">
         <Canvas>
@@ -170,8 +172,8 @@ const Header = () => {
             <Shape />
           </Suspense>
         </Canvas>
-        <div className="absolute bottom-0 right-0 left-0 mx-auto h-4/5">
-          <img src="/hero.png" alt="" className="w-full h-full object-cover" />
+        <div className="absolute bottom-0 right-0 left-0 mx-auto h-full ">
+          <Image src={haitrieu} alt={`haitrieu`} className="w-full h-full object-contain" />
         </div>
       </Row>
     </Row>

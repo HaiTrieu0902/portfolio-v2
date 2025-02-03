@@ -5,6 +5,15 @@
       "en": "English",
       "vn": "Vietnamese"
     },
-    "label": {}
+    "label": {
+      "hey": "Hey There",
+      "iam": "I'm",
+      "softwareEngineer": "Software Engineer",
+      "titleFirst": "Research, Develop, Test, and Maintain software by applying engineering and programming principles. Build applications that meet user and business requirements.",
+      "oowayFirst": "Yesterday is History, Tomorrow is a Mystery, but Today is a Gift.",
+      "oowaySecond": "That is why it is called present.",
+      "vietnam": "FROM VIET NAM",
+      "changeLanguage": "Change Language"
+    }
   }
 }

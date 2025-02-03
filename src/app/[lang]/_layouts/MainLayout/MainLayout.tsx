@@ -8,11 +8,9 @@ const Footer = lazy(() => import('../components/Footer'));
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="flex flex-col min-h-screen ">
+    <main className="container">
       <Suspense fallback={<Skeleton active />}>
-        <div className="px-12">
-          <Header />
-        </div>
+        <Header />
       </Suspense>
       <div className="flex-grow py-4 container mx-auto">{children}</div>
       <Suspense fallback={<Skeleton active />}>
