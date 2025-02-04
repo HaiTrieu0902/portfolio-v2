@@ -1,20 +1,14 @@
 'use client';
 import { useAppSelector } from '@/store/store';
-import { Collapse, Row } from 'antd';
-import React from 'react';
+import { Row } from 'antd';
+import ServicePage from './_components/service';
 
 const HomePage = () => {
   const { dict } = useAppSelector((state) => state.common);
-  const collapseItems = [
-    {
-      key: 'dashbroad',
-      label: 'ocee',
-      children: <div>HomePage</div>,
-    },
-  ];
+
   return (
     <Row className="w-100">
-      <Collapse defaultActiveKey={['dashbroad']} className="w-100" items={collapseItems} />
+      <ServicePage />
     </Row>
   );
 };

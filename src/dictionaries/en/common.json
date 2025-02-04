@@ -13,7 +13,14 @@
       "oowayFirst": "Yesterday is History, Tomorrow is a Mystery, but Today is a Gift.",
       "oowaySecond": "That is why it is called present.",
       "vietnam": "FROM VIET NAM",
-      "changeLanguage": "Change Language"
+      "changeLanguage": "Change Language",
+      "service": "Service"
+    },
+    "service": {
+      "frontend": "Web App Development",
+      "backend": "Backend Development",
+      "socialMedia": "Social Media Platform",
+      "project": "Project"
     }
   }
 }
